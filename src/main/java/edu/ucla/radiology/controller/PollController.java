@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -60,6 +61,19 @@ public class PollController {
            throw new Exception("poll not found"); 
         }
         return new ResponseEntity<>(poll.get(), HttpStatus.OK);
+    }
+
+    @PutMapping("/polls/{pollId}")
+    public  ResponseEntity<?> updatePoll(@RequestBody Poll poll, @PathVariable Long pollId) {
+        Poll savedPoll = pollRepository.save(poll);
+        List<Option> options = poll.getOptions();
+        if (options != null) {
+            for (Option option : options) {
+                option.setPoll(savedPoll);
+                option = optionRepository.save(option);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/polls/{pollId}")
