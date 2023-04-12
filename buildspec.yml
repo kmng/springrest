@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto11
+  pre_build:
+    commands:
+      - echo "Beginning Gradle build"
+      - chmod +x gradlew
+  build:
+    commands:
+      - ./gradlew build
+  post_build:
+    commands:
+      - echo "Gradle build complete"
+
+artifacts:
+  files:
+    - build/libs/*.jar
