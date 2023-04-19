@@ -4,13 +4,6 @@ phases:
   install:
     runtime-versions:
       java: corretto11
-    commands:
-      - echo "Install phase"
-      - echo "Installing Gradle"
-      - curl -L https://services.gradle.org/distributions/gradle-7.2-bin.zip -o gradle.zip
-      - unzip -q gradle.zip
-      - export GRADLE_HOME=$PWD/gradle-7.2
-      - export PATH=$GRADLE_HOME/bin:$PATH
   pre_build:
     commands:
       - echo "Beginning Gradle build"
