@@ -7,10 +7,10 @@ phases:
   pre_build:
     commands:
       - echo "Beginning Gradle build"
-      - chmod +x ./gradlew
+      - chmod a+x ./gradlew
   build:
     commands:
-      - gradle build
+      - ./gradlew build --debug
   post_build:
     commands:
       - echo "Gradle build complete"
