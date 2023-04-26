@@ -10,7 +10,7 @@ phases:
       - chmod +x ./gradlew
   build:
     commands:
-      - ./gradlew build --debug
+      - gradle build
   post_build:
     commands:
       - echo "Gradle build complete"
