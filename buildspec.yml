@@ -22,6 +22,6 @@ phases:
       - echo Pushing the Docker images...
       - echo Writing image definitions file...
       - printf '[{"name”:"spring_boot_ecr","imageUri":"%s"}]' $REPOSITORY_URI > imagedefinitions.json
-      
-  artifacts:
-    files: imagedefinitions.json
+
+artifacts:
+  files: imagedefinitions.json
