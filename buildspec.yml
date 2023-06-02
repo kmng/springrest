@@ -3,23 +3,25 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      # Install and configure the AWS CLI
-      - apt-get update
-      - apt-get install -y unzip
-      - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-      - unzip awscliv2.zip
-      - sudo ./aws/install
-
-  build:
-    commands:
       # Log in to Amazon ECR
       - $(aws ecr get-login --no-include-email --region  us-west-2)
 
+  build:
+    commands:
+      
       # Build the Docker image
       - docker build -t spring_boot_ecr .
-
       # Tag the Docker image with the ECR registry information
       - docker tag spring_boot_ecr:latest 006343592531.dkr.ecr.us-west-2.amazonaws.com/spring_boot_ecr:latest
-
+      - REPOSITORY_URI=006343592531.dkr.ecr.us-west-2.amazonaws.com/spring_boot_ecr:latest
       # Push the Docker image to Amazon ECR
       - docker push 006343592531.dkr.ecr.us-west-2.amazonaws.com/spring_boot_ecr:latest
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - echo Writing image definitions file...
+      - printf '[{"name”:"spring_boot_ecr","imageUri":"%s"}]' $REPOSITORY_URI > imagedefinitions.json
+      
+  artifacts:
+    files: imagedefinitions.json
